@@ -46,6 +46,18 @@ proto3.util.setEnumType(EnumWithOptions, "example.EnumWithOptions", [
   { no: 2, name: "INACTIVE" },
 ]);
 
+export interface IMessageWithOptions {
+    foo: number;
+    bar: string;
+    qux: {
+        case: string | undefined;
+        value?: unknown;
+    }
+    many: string[];
+    mapping: {[key: string | number]: string};
+    unused: string;
+}
+
 /**
  * @generated from message example.MessageWithOptions
  */
@@ -119,6 +131,9 @@ export class MessageWithOptions extends Message<MessageWithOptions> {
   }
 }
 
+export interface IGetRequest {
+}
+
 /**
  * @generated from message example.GetRequest
  */
@@ -148,6 +163,9 @@ export class GetRequest extends Message<GetRequest> {
   static equals(a: GetRequest | PlainMessage<GetRequest> | undefined, b: GetRequest | PlainMessage<GetRequest> | undefined): boolean {
     return proto3.util.equals(GetRequest, a, b);
   }
+}
+
+export interface IGetResponse {
 }
 
 /**

@@ -21,6 +21,39 @@ import type {BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMe
 import {Message, proto3} from "@bufbuild/protobuf";
 import {Person} from "./person_pb.js";
 
+export interface IAddressBook {
+    people: [{
+        name: string;
+        id: number;
+        email: string;
+        active: boolean;
+        phones: [{
+            number: string;
+            type: number;
+            non: {
+                fax: number;
+                carrierPigeon: string;
+            },
+        }],
+        lastUpdated: {
+            seconds: bigint;
+            nanos: number;
+        },
+    qux: {
+        case: string | undefined;
+        value?: unknown;
+    }
+    baz: {
+        case: string | undefined;
+        value?: unknown;
+    }
+        mapping: {[key: string | number]: string};
+        availability: number;
+        aliases: string[];
+        bigNumber: bigint;
+    }],
+}
+
 /**
  * Our address book file is just one of these.
  *

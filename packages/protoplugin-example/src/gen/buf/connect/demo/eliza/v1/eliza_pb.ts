@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Buf Technologies, Inc.
+// Copyright 2022 Buf Technologies, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,10 @@
 
 import type {BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage} from "@bufbuild/protobuf";
 import {Message, proto3} from "@bufbuild/protobuf";
+
+export interface ISayRequest {
+sentence: fieldy
+}
 
 /**
  * SayRequest describes the sentence said to the ELIZA program.
@@ -57,6 +61,10 @@ export class SayRequest extends Message<SayRequest> {
   static equals(a: SayRequest | PlainMessage<SayRequest> | undefined, b: SayRequest | PlainMessage<SayRequest> | undefined): boolean {
     return proto3.util.equals(SayRequest, a, b);
   }
+}
+
+export interface ISayResponse {
+sentence: fieldy
 }
 
 /**
@@ -98,6 +106,10 @@ export class SayResponse extends Message<SayResponse> {
   }
 }
 
+export interface IConverseRequest {
+sentence: fieldy
+}
+
 /**
  * ConverseRequest describes the sentence said to the ELIZA program.
  *
@@ -135,6 +147,10 @@ export class ConverseRequest extends Message<ConverseRequest> {
   static equals(a: ConverseRequest | PlainMessage<ConverseRequest> | undefined, b: ConverseRequest | PlainMessage<ConverseRequest> | undefined): boolean {
     return proto3.util.equals(ConverseRequest, a, b);
   }
+}
+
+export interface IConverseResponse {
+sentence: fieldy
 }
 
 /**
@@ -176,6 +192,10 @@ export class ConverseResponse extends Message<ConverseResponse> {
   }
 }
 
+export interface IIntroduceRequest {
+name: fieldy
+}
+
 /**
  * IntroduceRequest describes a request for details from the ELIZA program.
  *
@@ -213,6 +233,10 @@ export class IntroduceRequest extends Message<IntroduceRequest> {
   static equals(a: IntroduceRequest | PlainMessage<IntroduceRequest> | undefined, b: IntroduceRequest | PlainMessage<IntroduceRequest> | undefined): boolean {
     return proto3.util.equals(IntroduceRequest, a, b);
   }
+}
+
+export interface IIntroduceResponse {
+sentence: fieldy
 }
 
 /**

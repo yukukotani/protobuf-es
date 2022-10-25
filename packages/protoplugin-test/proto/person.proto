@@ -17,10 +17,30 @@ package example;
 
 import "google/protobuf/timestamp.proto";
 
+message OneOfStatus {
+    string status = 1;
+}
+
+message OneOfSwitch {
+    bool switch = 1;
+}
+
+enum Availability {
+    UNKNOWN = 0;
+    YES = 1;
+    NO = 2;
+}
+
+message NonPhones {
+  int32 fax = 1;
+  string carrier_pigeon = 2;
+}
+
 message Person {
   string name = 1;
   int32 id = 2;  // Unique ID number for this person.
   string email = 3;
+  bool active = 4;
 
   enum PhoneType {
     MOBILE = 0;
@@ -31,10 +51,30 @@ message Person {
   message PhoneNumber {
     string number = 1;
     PhoneType type = 2;
+    NonPhones non = 3;
   }
 
-  repeated PhoneNumber phones = 4;
+  repeated PhoneNumber phones = 5;
 
-  google.protobuf.Timestamp last_updated = 5;
+  google.protobuf.Timestamp last_updated = 6;
+
+  oneof qux {
+    string quux = 8;
+    int32 bing = 9;
+  }
+
+  oneof baz {
+    OneOfStatus statusO = 10;
+    OneOfSwitch switchO = 11;
+  }
+
+  map<int32, string> mapping = 12;
+
+  Availability availability = 13;
+
+  repeated string aliases = 14;
+
+  int64 big_number = 15;
 }
+
 

@@ -82,6 +82,7 @@ function generateMessage(schema: Schema, f: GeneratedFile, message: DescMessage)
     JsonReadOptions,
     JsonValue
   } = schema.runtime;
+  generateInterface(schema, f, message);
   f.print(makeJsDoc(message));
   f.print("export class ", message, " extends ", Message, "<", message, "> {");
   for (const member of message.members) {
@@ -595,4 +596,140 @@ function generateWktStaticMethods(schema: Schema, f: GeneratedFile, message: Des
     case "google.protobuf.FieldMask":
       break;
   }
+}
+
+function getPrefix(level: number): string {
+  let prefix = "";
+  for (let i = 0; i < level; i++) {
+    prefix += "    ";
+  }
+  return prefix;
+}
+function getScalarTypeText(f: GeneratedFile, field: DescField, level: number) {
+  const name = localName(field);
+  const { typing } = getFieldTyping(field, f);
+
+  // switch (field.scalar) {
+  //   case ScalarType.INT32:
+  //     typeName = "number";
+  //     break;
+  //   case ScalarType.UINT32:
+  //     typeName = "number";
+  //     break;
+  //   case ScalarType.SINT32:
+  //     typeName = "number";
+  //     break;
+  //   case ScalarType.FIXED32:
+  //     typeName = "number";
+  //     break;
+  //   case ScalarType.SFIXED32:
+  //     typeName = "number";
+  //     break;
+  //   case ScalarType.FLOAT:
+  //     typeName = "number";
+  //     break;
+  //   case ScalarType.DOUBLE:
+  //     typeName = "number";
+  //     break;
+  //   case ScalarType.INT64:
+  //     typeName = "bigint | string";
+  //     break;
+  //   case ScalarType.SINT64:
+  //     typeName = "bigint | string";
+  //     break;
+  //   case ScalarType.SFIXED64:
+  //     typeName = "bigint | string";
+  //     break;
+  //   case ScalarType.UINT64:
+  //     typeName = "bigint | string";
+  //     break;
+  //   case ScalarType.FIXED64:
+  //     typeName = "bigint | string";
+  //     break;
+  //   case ScalarType.BOOL:
+  //     typeName = "boolean";
+  //     break;
+  //   case ScalarType.BYTES:
+  //     typeName = "Uint8Array";
+  //     break;
+  //   case ScalarType.STRING:
+  //     typeName = "string";
+  //     break;
+  //   default: {
+  //     typeName = "unknown";
+  //     break;
+  //   }
+  // }
+
+  // if (field.repeated) {
+  //   typing += "[]";
+  // }
+  const prefix = getPrefix(level);
+  f.print(prefix, name, ": ", typing, ";");
+}
+
+function generateInterfaceMessage(
+  schema: Schema,
+  f: GeneratedFile,
+  message: DescMessage,
+  level: number
+) {
+  let prefix = "";
+  for (let i = 0; i < level; i++) {
+    prefix += "    ";
+  }
+  for (const member of message.members) {
+    switch (member.kind) {
+      case "oneof":
+        f.print("    ", localName(member), ": {");
+        f.print("        case: string | undefined;");
+        f.print("        value?: unknown;");
+        f.print("    }");
+        break;
+      default:
+        switch (member.fieldKind) {
+          case "scalar":
+            getScalarTypeText(f, member, level);
+            break;
+          case "message":
+            if (member.repeated) {
+              f.print(prefix, localName(member), ": [{");
+            } else {
+              f.print(prefix, localName(member), ": {");
+            }
+            generateInterfaceMessage(schema, f, member.message, level + 1);
+            if (member.repeated) {
+              f.print(prefix, "}],");
+            } else {
+              f.print(prefix, "},");
+            }
+            break;
+          case "enum":
+            f.print(prefix, localName(member), ": number;");
+            break;
+          case "map":
+            f.print(
+              prefix,
+              localName(member),
+              ": {[key: string | number]: string};"
+            );
+
+            break;
+          default:
+            break;
+        }
+        break;
+    }
+  }
+}
+
+function generateInterface(
+  schema: Schema,
+  f: GeneratedFile,
+  message: DescMessage
+) {
+  f.print("export interface I", message, " {");
+  generateInterfaceMessage(schema, f, message, 1);
+  f.print("}");
+  f.print();
 }
