@@ -598,118 +598,46 @@ function generateWktStaticMethods(schema: Schema, f: GeneratedFile, message: Des
   }
 }
 
-function getPrefix(level: number): string {
-  let prefix = "";
-  for (let i = 0; i < level; i++) {
-    prefix += "    ";
-  }
-  return prefix;
-}
-function getScalarTypeText(f: GeneratedFile, field: DescField, level: number) {
-  const name = localName(field);
-  const { typing } = getFieldTyping(field, f);
-
-  // switch (field.scalar) {
-  //   case ScalarType.INT32:
-  //     typeName = "number";
-  //     break;
-  //   case ScalarType.UINT32:
-  //     typeName = "number";
-  //     break;
-  //   case ScalarType.SINT32:
-  //     typeName = "number";
-  //     break;
-  //   case ScalarType.FIXED32:
-  //     typeName = "number";
-  //     break;
-  //   case ScalarType.SFIXED32:
-  //     typeName = "number";
-  //     break;
-  //   case ScalarType.FLOAT:
-  //     typeName = "number";
-  //     break;
-  //   case ScalarType.DOUBLE:
-  //     typeName = "number";
-  //     break;
-  //   case ScalarType.INT64:
-  //     typeName = "bigint | string";
-  //     break;
-  //   case ScalarType.SINT64:
-  //     typeName = "bigint | string";
-  //     break;
-  //   case ScalarType.SFIXED64:
-  //     typeName = "bigint | string";
-  //     break;
-  //   case ScalarType.UINT64:
-  //     typeName = "bigint | string";
-  //     break;
-  //   case ScalarType.FIXED64:
-  //     typeName = "bigint | string";
-  //     break;
-  //   case ScalarType.BOOL:
-  //     typeName = "boolean";
-  //     break;
-  //   case ScalarType.BYTES:
-  //     typeName = "Uint8Array";
-  //     break;
-  //   case ScalarType.STRING:
-  //     typeName = "string";
-  //     break;
-  //   default: {
-  //     typeName = "unknown";
-  //     break;
-  //   }
-  // }
-
-  // if (field.repeated) {
-  //   typing += "[]";
-  // }
-  const prefix = getPrefix(level);
-  f.print(prefix, name, ": ", typing, ";");
-}
-
 function generateInterfaceMessage(
   schema: Schema,
   f: GeneratedFile,
   message: DescMessage,
   level: number
 ) {
-  let prefix = "";
-  for (let i = 0; i < level; i++) {
-    prefix += "    ";
-  }
+  const indent = "    ".repeat(level);
   for (const member of message.members) {
     switch (member.kind) {
       case "oneof":
-        f.print("    ", localName(member), ": {");
-        f.print("        case: string | undefined;");
-        f.print("        value?: unknown;");
-        f.print("    }");
+        f.print(indent, localName(member), ": {");
+        f.print(indent, "    case: string | undefined;");
+        f.print(indent, "    value?: unknown;");
+        f.print(indent, "}");
         break;
       default:
         switch (member.fieldKind) {
           case "scalar":
-            getScalarTypeText(f, member, level);
+            const { typing } = getFieldTyping(member, f);
+            f.print(indent, localName(member), ": ", typing, ";");
             break;
           case "message":
             if (member.repeated) {
-              f.print(prefix, localName(member), ": [{");
+              f.print(indent, localName(member), ": [{");
             } else {
-              f.print(prefix, localName(member), ": {");
+              f.print(indent, localName(member), ": {");
             }
             generateInterfaceMessage(schema, f, member.message, level + 1);
             if (member.repeated) {
-              f.print(prefix, "}],");
+              f.print(indent, "}],");
             } else {
-              f.print(prefix, "},");
+              f.print(indent, "},");
             }
             break;
           case "enum":
-            f.print(prefix, localName(member), ": number;");
+            f.print(indent, localName(member), ": number;");
             break;
           case "map":
             f.print(
-              prefix,
+              indent,
               localName(member),
               ": {[key: string | number]: string};"
             );
