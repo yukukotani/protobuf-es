@@ -611,7 +611,7 @@ function generateInterfaceMessage(
         f.print(indent, localName(member), ": {");
         f.print(indent, "    case: string | undefined;");
         f.print(indent, "    value?: unknown;");
-        f.print(indent, "}");
+        f.print(indent, "};");
         break;
       default:
         switch (member.fieldKind) {
@@ -620,17 +620,22 @@ function generateInterfaceMessage(
             f.print(indent, localName(member), ": ", typing, ";");
             break;
           case "message":
+            let e: Printable = [];
+            e.push(indent, localName(member), ": ");
             if (member.repeated) {
-              f.print(indent, localName(member), ": [{");
+              e.push("[{");
             } else {
-              f.print(indent, localName(member), ": {");
+              e.push("{");
             }
+            f.print(e);
             generateInterfaceMessage(schema, f, member.message, level + 1);
+            e = [];
             if (member.repeated) {
-              f.print(indent, "}],");
+              e.push(indent, "}];");
             } else {
-              f.print(indent, "},");
+              e.push(indent, "};");
             }
+            f.print(e);
             break;
           case "enum":
             f.print(indent, localName(member), ": number;");

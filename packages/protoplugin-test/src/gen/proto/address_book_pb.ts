@@ -33,25 +33,25 @@ export interface IAddressBook {
             non: {
                 fax: number;
                 carrierPigeon: string;
-            },
-        }],
+            };
+        }];
         lastUpdated: {
             seconds: bigint;
             nanos: number;
-        },
+        };
         qux: {
             case: string | undefined;
             value?: unknown;
-        }
+        };
         baz: {
             case: string | undefined;
             value?: unknown;
-        }
+        };
         mapping: {[key: string | number]: string};
         availability: number;
         aliases: string[];
         bigNumber: bigint;
-    }],
+    }];
 }
 
 /**

@@ -187,20 +187,20 @@ export interface IPerson {
         non: {
             fax: number;
             carrierPigeon: string;
-        },
-    }],
+        };
+    }];
     lastUpdated: {
         seconds: bigint;
         nanos: number;
-    },
+    };
     qux: {
         case: string | undefined;
         value?: unknown;
-    }
+    };
     baz: {
         case: string | undefined;
         value?: unknown;
-    }
+    };
     mapping: {[key: string | number]: string};
     availability: number;
     aliases: string[];
@@ -370,7 +370,7 @@ export interface IPerson_PhoneNumber {
     non: {
         fax: number;
         carrierPigeon: string;
-    },
+    };
 }
 
 /**

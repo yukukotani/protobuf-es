@@ -52,7 +52,7 @@ export interface IConfiguration {
     qux: {
         case: string | undefined;
         value?: unknown;
-    }
+    };
     many: string[];
     mapping: {[key: string | number]: string};
     unused: string;
