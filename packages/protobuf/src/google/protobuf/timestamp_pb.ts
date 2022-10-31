@@ -131,6 +131,7 @@ export class Timestamp extends Message<Timestamp> {
    */
   seconds = protoInt64.zero;
 
+
   /**
    * Non-negative fractions of a second at nanosecond resolution. Negative
    * second values with fractions must still have non-negative nanos values

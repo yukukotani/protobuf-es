@@ -181,18 +181,8 @@ export interface IPerson {
     id: number;
     email: string;
     active: boolean;
-    phones: [{
-        number: string;
-        type: number;
-        non: {
-            fax: number;
-            carrierPigeon: string;
-        };
-    }];
-    lastUpdated: {
-        seconds: bigint;
-        nanos: number;
-    };
+    phones: IPerson_PhoneNumber[];
+    lastUpdated: ITimestamp;
     qux: {
         case: string | undefined;
         value?: unknown;
@@ -202,7 +192,7 @@ export interface IPerson {
         value?: unknown;
     };
     mapping: {[key: string | number]: string};
-    availability: number;
+    availability: Availability;
     aliases: string[];
     bigNumber: bigint;
 }
@@ -236,12 +226,12 @@ export class Person extends Message<Person> {
   /**
    * @generated from field: repeated example.Person.PhoneNumber phones = 5;
    */
-  phones: Person_PhoneNumber[] = [];
+  phones: IPerson_PhoneNumber[] = [];
 
   /**
    * @generated from field: google.protobuf.Timestamp last_updated = 6;
    */
-  lastUpdated?: Timestamp;
+  lastUpdated?: ITimestamp;
 
   /**
    * @generated from oneof example.Person.qux
@@ -267,13 +257,13 @@ export class Person extends Message<Person> {
     /**
      * @generated from field: example.OneOfStatus statusO = 10;
      */
-    value: OneOfStatus;
+    value: IOneOfStatus;
     case: "statusO";
   } | {
     /**
      * @generated from field: example.OneOfSwitch switchO = 11;
      */
-    value: OneOfSwitch;
+    value: IOneOfSwitch;
     case: "switchO";
   } | { case: undefined; value?: undefined } = { case: undefined };
 
@@ -366,11 +356,8 @@ proto3.util.setEnumType(Person_PhoneType, "example.Person.PhoneType", [
 
 export interface IPerson_PhoneNumber {
     number: string;
-    type: number;
-    non: {
-        fax: number;
-        carrierPigeon: string;
-    };
+    type: Person_PhoneType;
+    non: INonPhones;
 }
 
 /**
@@ -390,7 +377,7 @@ export class Person_PhoneNumber extends Message<Person_PhoneNumber> {
   /**
    * @generated from field: example.NonPhones non = 3;
    */
-  non?: NonPhones;
+  non?: INonPhones;
 
   constructor(data?: PartialMessage<Person_PhoneNumber>) {
     super();

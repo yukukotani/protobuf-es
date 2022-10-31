@@ -17,41 +17,12 @@
 /* eslint-disable */
 /* @ts-nocheck */
 
+import {Person} from "./person_pb.js";
 import type {BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage} from "@bufbuild/protobuf";
 import {Message, proto3} from "@bufbuild/protobuf";
-import {Person} from "./person_pb.js";
 
 export interface IAddressBook {
-    people: [{
-        name: string;
-        id: number;
-        email: string;
-        active: boolean;
-        phones: [{
-            number: string;
-            type: number;
-            non: {
-                fax: number;
-                carrierPigeon: string;
-            };
-        }];
-        lastUpdated: {
-            seconds: bigint;
-            nanos: number;
-        };
-        qux: {
-            case: string | undefined;
-            value?: unknown;
-        };
-        baz: {
-            case: string | undefined;
-            value?: unknown;
-        };
-        mapping: {[key: string | number]: string};
-        availability: number;
-        aliases: string[];
-        bigNumber: bigint;
-    }];
+    people: IPerson[];
 }
 
 /**
@@ -63,7 +34,7 @@ export class AddressBook extends Message<AddressBook> {
   /**
    * @generated from field: repeated example.Person people = 1;
    */
-  people: Person[] = [];
+  people: IPerson[] = [];
 
   constructor(data?: PartialMessage<AddressBook>) {
     super();

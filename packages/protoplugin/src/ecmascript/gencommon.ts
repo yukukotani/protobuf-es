@@ -180,7 +180,7 @@ export function getFieldTyping(
       if (baseType !== undefined) {
         typing.push(scalarTypeScriptType(baseType));
       } else {
-        typing.push(file.import(field.message).toTypeOnly());
+        typing.push("I", file.import(field.message).toTypeOnly());
       }
       optional = true;
       break;

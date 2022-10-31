@@ -82,7 +82,7 @@ function generateMessage(schema: Schema, f: GeneratedFile, message: DescMessage)
     JsonReadOptions,
     JsonValue
   } = schema.runtime;
-  generateInterface(schema, f, message);
+  generateInterface(f, message);
   f.print(makeJsDoc(message));
   f.print("export class ", message, " extends ", Message, "<", message, "> {");
   for (const member of message.members) {
@@ -598,55 +598,30 @@ function generateWktStaticMethods(schema: Schema, f: GeneratedFile, message: Des
   }
 }
 
-function generateInterfaceMessage(
-  schema: Schema,
-  f: GeneratedFile,
-  message: DescMessage,
-  level: number
-) {
-  const indent = "    ".repeat(level);
+// prettier-ignore
+function generateInterfaceMessage(f: GeneratedFile, message: DescMessage) {
   for (const member of message.members) {
     switch (member.kind) {
       case "oneof":
-        f.print(indent, localName(member), ": {");
-        f.print(indent, "    case: string | undefined;");
-        f.print(indent, "    value?: unknown;");
-        f.print(indent, "};");
+        f.print("    ", localName(member), ": {");
+        f.print("        case: string | undefined;");
+        f.print("        value?: unknown;");
+        f.print("    };");
         break;
       default:
+        const { typing } = getFieldTyping(member, f);
         switch (member.fieldKind) {
           case "scalar":
-            const { typing } = getFieldTyping(member, f);
-            f.print(indent, localName(member), ": ", typing, ";");
+            f.print("    ", localName(member), ": ", typing, ";");
             break;
           case "message":
-            let e: Printable = [];
-            e.push(indent, localName(member), ": ");
-            if (member.repeated) {
-              e.push("[{");
-            } else {
-              e.push("{");
-            }
-            f.print(e);
-            generateInterfaceMessage(schema, f, member.message, level + 1);
-            e = [];
-            if (member.repeated) {
-              e.push(indent, "}];");
-            } else {
-              e.push(indent, "};");
-            }
-            f.print(e);
+            f.print("    ", localName(member), ": ", typing, ";");
             break;
           case "enum":
-            f.print(indent, localName(member), ": number;");
+            f.print("    ", localName(member), ": ", typing, ";");
             break;
           case "map":
-            f.print(
-              indent,
-              localName(member),
-              ": {[key: string | number]: string};"
-            );
-
+            f.print("    ", localName(member), ": {[key: string | number]: string};");
             break;
           default:
             break;
@@ -656,13 +631,9 @@ function generateInterfaceMessage(
   }
 }
 
-function generateInterface(
-  schema: Schema,
-  f: GeneratedFile,
-  message: DescMessage
-) {
+function generateInterface(f: GeneratedFile, message: DescMessage) {
   f.print("export interface I", message, " {");
-  generateInterfaceMessage(schema, f, message, 1);
+  generateInterfaceMessage(f, message);
   f.print("}");
   f.print();
 }
