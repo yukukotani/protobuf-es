@@ -181,8 +181,8 @@ export interface IPerson {
     id: number;
     email: string;
     active: boolean;
-    nyetphones: Person_PhoneNumber[];
-    nyetlastUpdated: Timestamp;
+    phones: Person_PhoneNumber[];
+    lastUpdated: Timestamp;
     qux: {
         case: string | undefined;
         value?: unknown;
@@ -354,7 +354,7 @@ proto3.util.setEnumType(Person_PhoneType, "example.Person.PhoneType", [
   { no: 2, name: "WORK" },
 ]);
 
-export interface IPerson_PhoneNumber {
+export interface IPhoneNumber {
     number: string;
     type: Person_PhoneType;
     non: INonPhones;

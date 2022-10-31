@@ -622,7 +622,7 @@ function generateInterfaceMessage(f: GeneratedFile, message: DescMessage) {
                 f.print("    ", localName(member), ": ", importSymbol, ";");
             } else {
                 const { typing } = getFieldTyping(member, f);
-                f.print("    nyet", localName(member), ": ", typing, ";");
+                f.print("    ", localName(member), ": ", typing, ";");
             }
             break;
           case "scalar":
@@ -640,7 +640,7 @@ function generateInterfaceMessage(f: GeneratedFile, message: DescMessage) {
 }
 
 function generateInterface(f: GeneratedFile, message: DescMessage) {
-  const interfaceSymbol = f.export("I" + localName(message));
+  const interfaceSymbol = f.export("I" + message.name);
   exportMap.set(message, interfaceSymbol);
   f.print("export interface ", interfaceSymbol, " {");
   generateInterfaceMessage(f, message);
