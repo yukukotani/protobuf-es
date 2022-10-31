@@ -615,16 +615,10 @@ function generateInterfaceMessage(f: GeneratedFile, message: DescMessage) {
         const { typing } = getFieldTyping(member, f);
         switch (member.fieldKind) {
           case "scalar":
-            f.print("    ", localName(member), ": ", typing, ";");
-            break;
           case "message":
-            f.print("    ", localName(member), ": ", typing, ";");
-            break;
           case "enum":
-            f.print("    ", localName(member), ": ", typing, ";");
-            break;
           case "map":
-            f.print("    ", localName(member), ": {[key: string | number]: string};");
+            f.print("    ", localName(member), ": ", typing, ";");
             break;
           default:
             break;
