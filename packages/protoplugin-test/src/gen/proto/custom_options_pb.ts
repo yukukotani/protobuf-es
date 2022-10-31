@@ -54,7 +54,7 @@ export interface IConfiguration {
         value?: unknown;
     };
     many: string[];
-    mapping: {[key: string | number]: string};
+    mapping: { [key: string]: string };
     unused: string;
 }
 

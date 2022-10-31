@@ -191,7 +191,7 @@ export interface IPerson {
         case: string | undefined;
         value?: unknown;
     };
-    mapping: {[key: string | number]: string};
+    mapping: { [key: number]: string };
     availability: Availability;
     aliases: string[];
     bigNumber: bigint;
