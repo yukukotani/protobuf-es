@@ -46,7 +46,7 @@ proto3.util.setEnumType(EnumWithOptions, "example.EnumWithOptions", [
   { no: 2, name: "INACTIVE" },
 ]);
 
-export interface Imessage example.MessageWithOptions {
+export interface IMessageWithOptions {
     foo: number;
     bar: string;
     qux: {
@@ -131,7 +131,7 @@ export class MessageWithOptions extends Message<MessageWithOptions> {
   }
 }
 
-export interface Imessage example.GetRequest {
+export interface IGetRequest {
 }
 
 /**
@@ -165,7 +165,7 @@ export class GetRequest extends Message<GetRequest> {
   }
 }
 
-export interface Imessage example.GetResponse {
+export interface IGetResponse {
 }
 
 /**

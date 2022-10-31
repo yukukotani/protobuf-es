@@ -23,6 +23,7 @@ import type {
   GeneratedFile,
   Printable,
   Schema,
+  ImportSymbol,
 } from "@bufbuild/protoplugin/ecmascript";
 import {
   localName,
@@ -33,6 +34,8 @@ import {
 } from "@bufbuild/protoplugin/ecmascript";
 import { generateFieldInfo } from "./javascript.js";
 import { literalString } from "@bufbuild/protoplugin/ecmascript";
+
+export const exportMap = new Map<DescMessage, ImportSymbol>();
 
 export function generateTs(schema: Schema) {
   for (const file of schema.files) {
@@ -612,12 +615,20 @@ function generateInterfaceMessage(f: GeneratedFile, message: DescMessage) {
         f.print("    };");
         break;
       default:
-        const { typing } = getFieldTyping(member, f);
         switch (member.fieldKind) {
-          case "scalar":
           case "message":
+            const importSymbol = exportMap.get(member.message);
+            if (importSymbol) {
+                f.print("    ", localName(member), ": ", importSymbol, ";");
+            } else {
+                const { typing } = getFieldTyping(member, f);
+                f.print("    nyet", localName(member), ": ", typing, ";");
+            }
+            break;
+          case "scalar":
           case "enum":
           case "map":
+            const { typing } = getFieldTyping(member, f);
             f.print("    ", localName(member), ": ", typing, ";");
             break;
           default:
@@ -629,7 +640,9 @@ function generateInterfaceMessage(f: GeneratedFile, message: DescMessage) {
 }
 
 function generateInterface(f: GeneratedFile, message: DescMessage) {
-  f.print("export interface I", message, " {");
+  const interfaceSymbol = f.export("I" + localName(message));
+  exportMap.set(message, interfaceSymbol);
+  f.print("export interface ", interfaceSymbol, " {");
   generateInterfaceMessage(f, message);
   f.print("}");
   f.print();

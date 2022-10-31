@@ -46,7 +46,7 @@ proto3.util.setEnumType(Availability, "example.Availability", [
   { no: 2, name: "NO" },
 ]);
 
-export interface Imessage example.OneOfStatus {
+export interface IOneOfStatus {
     status: string;
 }
 
@@ -87,7 +87,7 @@ export class OneOfStatus extends Message<OneOfStatus> {
   }
 }
 
-export interface Imessage example.OneOfSwitch {
+export interface IOneOfSwitch {
     switch: boolean;
 }
 
@@ -128,7 +128,7 @@ export class OneOfSwitch extends Message<OneOfSwitch> {
   }
 }
 
-export interface Imessage example.NonPhones {
+export interface INonPhones {
     fax: number;
     carrierPigeon: string;
 }
@@ -176,13 +176,13 @@ export class NonPhones extends Message<NonPhones> {
   }
 }
 
-export interface Imessage example.Person {
+export interface IPerson {
     name: string;
     id: number;
     email: string;
     active: boolean;
-    phones: IPerson_PhoneNumber[];
-    lastUpdated: ITimestamp;
+    nyetphones: Person_PhoneNumber[];
+    nyetlastUpdated: Timestamp;
     qux: {
         case: string | undefined;
         value?: unknown;
@@ -226,12 +226,12 @@ export class Person extends Message<Person> {
   /**
    * @generated from field: repeated example.Person.PhoneNumber phones = 5;
    */
-  phones: IPerson_PhoneNumber[] = [];
+  phones: Person_PhoneNumber[] = [];
 
   /**
    * @generated from field: google.protobuf.Timestamp last_updated = 6;
    */
-  lastUpdated?: ITimestamp;
+  lastUpdated?: Timestamp;
 
   /**
    * @generated from oneof example.Person.qux
@@ -257,13 +257,13 @@ export class Person extends Message<Person> {
     /**
      * @generated from field: example.OneOfStatus statusO = 10;
      */
-    value: IOneOfStatus;
+    value: OneOfStatus;
     case: "statusO";
   } | {
     /**
      * @generated from field: example.OneOfSwitch switchO = 11;
      */
-    value: IOneOfSwitch;
+    value: OneOfSwitch;
     case: "switchO";
   } | { case: undefined; value?: undefined } = { case: undefined };
 
@@ -354,7 +354,7 @@ proto3.util.setEnumType(Person_PhoneType, "example.Person.PhoneType", [
   { no: 2, name: "WORK" },
 ]);
 
-export interface Imessage example.Person.PhoneNumber {
+export interface IPerson_PhoneNumber {
     number: string;
     type: Person_PhoneType;
     non: INonPhones;
@@ -377,7 +377,7 @@ export class Person_PhoneNumber extends Message<Person_PhoneNumber> {
   /**
    * @generated from field: example.NonPhones non = 3;
    */
-  non?: INonPhones;
+  non?: NonPhones;
 
   constructor(data?: PartialMessage<Person_PhoneNumber>) {
     super();

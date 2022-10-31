@@ -17,12 +17,12 @@
 /* eslint-disable */
 /* @ts-nocheck */
 
-import {Person} from "./person_pb.js";
+import {IPerson, Person} from "./person_pb.js";
 import type {BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage} from "@bufbuild/protobuf";
 import {Message, proto3} from "@bufbuild/protobuf";
 
-export interface Imessage example.AddressBook {
-    people: IPerson[];
+export interface IAddressBook {
+    people: IPerson;
 }
 
 /**
@@ -34,7 +34,7 @@ export class AddressBook extends Message<AddressBook> {
   /**
    * @generated from field: repeated example.Person people = 1;
    */
-  people: IPerson[] = [];
+  people: Person[] = [];
 
   constructor(data?: PartialMessage<AddressBook>) {
     super();
