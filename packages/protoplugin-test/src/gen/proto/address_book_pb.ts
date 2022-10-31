@@ -21,7 +21,7 @@ import {Person} from "./person_pb.js";
 import type {BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage} from "@bufbuild/protobuf";
 import {Message, proto3} from "@bufbuild/protobuf";
 
-export interface IAddressBook {
+export interface Imessage example.AddressBook {
     people: IPerson[];
 }
 

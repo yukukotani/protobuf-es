@@ -46,7 +46,7 @@ proto3.util.setEnumType(Availability, "example.Availability", [
   { no: 2, name: "NO" },
 ]);
 
-export interface IOneOfStatus {
+export interface Imessage example.OneOfStatus {
     status: string;
 }
 
@@ -87,7 +87,7 @@ export class OneOfStatus extends Message<OneOfStatus> {
   }
 }
 
-export interface IOneOfSwitch {
+export interface Imessage example.OneOfSwitch {
     switch: boolean;
 }
 
@@ -128,7 +128,7 @@ export class OneOfSwitch extends Message<OneOfSwitch> {
   }
 }
 
-export interface INonPhones {
+export interface Imessage example.NonPhones {
     fax: number;
     carrierPigeon: string;
 }
@@ -176,7 +176,7 @@ export class NonPhones extends Message<NonPhones> {
   }
 }
 
-export interface IPerson {
+export interface Imessage example.Person {
     name: string;
     id: number;
     email: string;
@@ -354,7 +354,7 @@ proto3.util.setEnumType(Person_PhoneType, "example.Person.PhoneType", [
   { no: 2, name: "WORK" },
 ]);
 
-export interface IPerson_PhoneNumber {
+export interface Imessage example.Person.PhoneNumber {
     number: string;
     type: Person_PhoneType;
     non: INonPhones;

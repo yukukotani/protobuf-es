@@ -46,7 +46,7 @@ proto3.util.setEnumType(ServiceStatus, "example.ServiceStatus", [
   { no: 2, name: "STABLE" },
 ]);
 
-export interface IConfiguration {
+export interface Imessage example.Configuration {
     foo: number;
     bar: string;
     qux: {
